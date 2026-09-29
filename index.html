@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0C0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ortho SAM · Istanbul 2026</title>
+<link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/icon-apple-180.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="phone">
+
+  <!-- ONBOARDING -->
+  <div class="onboarding" id="onboarding">
+    <svg class="motif" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice">
+      <defs><pattern id="p1" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M20 0 L40 20 L20 40 L0 20 Z" fill="none" stroke="#FFC528" stroke-width="1"/>
+      </pattern></defs>
+      <rect width="300" height="300" fill="url(#p1)"/>
+    </svg>
+    <div class="cap">ORTHO SAM · ISTANBUL PROGRAM</div>
+    <h1>07–10 Oct 2026</h1>
+    <p class="sub">Point Hotel 5★ Taksim — Tripoli &amp; Benghazi groups</p>
+
+    <div class="photo-pick" id="obPhotoPick">
+      <img id="obPhotoImg" style="display:none;">
+      <svg id="obPhotoIcon" viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z"/><circle cx="12" cy="13" r="3.5"/></svg>
+    </div>
+    <input type="file" id="obPhotoInput" accept="image/*" style="display:none;">
+    <p class="photo-hint">Add a photo (optional)</p>
+
+    <div class="search-wrap">
+      <input type="text" id="nameSearch" placeholder="Search your name…" autocomplete="off">
+      <div class="name-results" id="nameResults"></div>
+    </div>
+
+    <div class="selected-chip" id="selectedChip">
+      <div class="scdot" id="selectedChipDot"></div>
+      <div>
+        <b id="selectedChipName"></b>
+        <small id="selectedChipCity"></small>
+      </div>
+      <button id="selectedChipClear">CHANGE</button>
+    </div>
+
+    <button class="pill-btn gold" id="obEnter" disabled>Enter the event</button>
+
+    <div class="sponsor-card">
+      <span class="sponsor-label">Presented by</span>
+      <div class="sponsor-logos">
+        <img src="images/eva_logo.png" alt="EVA Pharma">
+        <div class="sponsor-div"></div>
+        <img src="images/xr_logo.png" alt="Thiotacid Plus XR" class="xrlogo">
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSISTENT BRAND BAR -->
+  <header class="brandbar">
+    <img src="images/eva_logo.png" alt="EVA Pharma" class="brandbar-logo">
+    <div class="brandbar-div"></div>
+    <img src="images/xr_logo.png" alt="Thiotacid Plus XR" class="brandbar-logo xr">
+  </header>
+
+  <!-- VIEWS -->
+  <div class="views" id="views">
+
+    <!-- HOME -->
+    <section class="view active" id="view-home">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div>
+          <p class="eyebrow">TURKEY SAM · ISTANBUL</p>
+          <h1>Ortho SAM 2026</h1>
+        </div>
+        <div class="avatar-btn" id="homeAvatarBtn"><img id="homeAvatarImg" style="display:none;"><svg id="homeAvatarIcon" width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.7"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.4-3.8 4.4-5.5 7.5-5.5s6.1 1.7 7.5 5.5"/></svg></div>
+      </div>
+
+      <div class="hero">
+        <svg class="motif" viewBox="0 0 300 160" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="p2" width="34" height="34" patternUnits="userSpaceOnUse">
+            <circle cx="17" cy="17" r="1.3" fill="#FFC528"/><path d="M0 17h34M17 0v34" stroke="#FFC528" stroke-width=".4"/>
+          </pattern></defs>
+          <rect width="300" height="160" fill="url(#p2)"/>
+        </svg>
+        <p class="eyebrow">07–10 October 2026</p>
+        <h2>Your Istanbul<br>companion is ready</h2>
+        <p class="meta">Venue: <strong>Point Hotel 5★ Taksim</strong><br>Groups: <strong>Tripoli &amp; Benghazi</strong></p>
+        <div class="countdown" id="countdown">
+          <div class="box"><b id="cdDays">–</b><span>Days</span></div>
+          <div class="box"><b id="cdHours">–</b><span>Hours</span></div>
+          <div class="box"><b id="cdMins">–</b><span>Minutes</span></div>
+        </div>
+      </div>
+
+      <p class="greeting"><b id="greetName">Welcome</b><span class="city" id="greetCity"></span></p>
+
+      <div class="section-title">LOCAL TIME <span class="rule"></span></div>
+      <div class="clockrow">
+        <div class="clockcell">
+          <span class="ccity">Libya</span>
+          <b id="clockLY">--:--</b>
+          <span class="cdate" id="dateLY"></span>
+        </div>
+        <div class="clockcell active">
+          <span class="ccity">Turkey</span>
+          <b id="clockTR">--:--</b>
+          <span class="cdate" id="dateTR"></span>
+        </div>
+        <div class="clockcell">
+          <span class="ccity">Egypt</span>
+          <b id="clockEG">--:--</b>
+          <span class="cdate" id="dateEG"></span>
+        </div>
+      </div>
+
+      <div class="section-title">ISTANBUL FORECAST <span class="rule"></span></div>
+      <div class="forecastrow" id="forecastRow">
+        <div class="forecastcell"><span class="fday">Wed 07</span><div class="ficon"></div><b class="fhi">--°</b><span class="flo">--°</span></div>
+        <div class="forecastcell"><span class="fday">Thu 08</span><div class="ficon"></div><b class="fhi">--°</b><span class="flo">--°</span></div>
+        <div class="forecastcell"><span class="fday">Fri 09</span><div class="ficon"></div><b class="fhi">--°</b><span class="flo">--°</span></div>
+      </div>
+      <p class="note" id="forecastNote" style="margin-top:8px;">Loading forecast…</p>
+
+      <div class="grid2">
+        <button class="tile" onclick="goTab('program')">
+          <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>
+          <b>Event Program</b><span>4-day schedule</span>
+        </button>
+        <button class="tile" onclick="goTab('science')">
+          <svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v5l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3"/></svg>
+          <b>Scientific Agenda</b><span>Speakers &amp; topics</span>
+        </button>
+        <button class="tile" onclick="goTab('travel')">
+          <svg viewBox="0 0 24 24"><path d="M10.5 21l1.5-6 6-2-1-2-6 1.5L9 3 7 4l1.5 8.5-6 1L2 15l7 1.5z"/></svg>
+          <b>Flights &amp; Map</b><span>Times &amp; venue</span>
+        </button>
+        <button class="tile" onclick="goTab('tools')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12h7M12 8.5v7"/></svg>
+          <b>Currency</b><span>LYD · TRY · USD</span>
+        </button>
+        <button class="tile" onclick="goTab('team')">
+          <svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="9" r="2.4"/><path d="M2.8 20c1.1-3.4 3.6-5 5.7-5s4.6 1.6 5.7 5M14.5 14.2c1.7.2 3.4 1.4 4.3 4.3"/></svg>
+          <b>Meet EVA Team</b><span>Staff at the event</span>
+        </button>
+        <button class="tile" onclick="goTab('guide')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M6.5 6.5c2 2.2 3.5 3.3 5.5 3.5 2-.2 3.5-1.3 5.5-3.5M6.5 17.5c2-2.2 3.5-3.3 5.5-3.5 2 .2 3.5 1.3 5.5 3.5"/></svg>
+          <b>Istanbul Guide</b><span>Turkey at a glance</span>
+        </button>
+        <button class="tile wide" onclick="openSheet()">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.4-3.8 4.4-5.5 7.5-5.5s6.1 1.7 7.5 5.5"/></svg>
+          <div><b>My Profile</b><span>Change name or photo</span></div>
+        </button>
+      </div>
+
+      <div class="section-title">ABOUT THIS EVENT <span class="rule"></span></div>
+      <div class="card sponsor-footer">
+        <div class="sponsor-logos">
+          <img src="images/eva_logo.png" alt="EVA Pharma">
+          <div class="sponsor-div"></div>
+          <img src="images/xr_logo.png" alt="Thiotacid Plus XR" class="xrlogo">
+        </div>
+        <p>Ortho SAM Istanbul 2026 is proudly presented by EVA Pharma, makers of Thiotacid Plus XR.</p>
+      </div>
+    </section>
+
+    <!-- PROGRAM -->
+    <section class="view" id="view-program">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">SCHEDULE</p><h1>Event Program</h1></div>
+      </div>
+      <div class="daytabs" id="daytabs"></div>
+      <p class="daylabel" id="daylabel"></p>
+      <div class="timeline" id="timeline"></div>
+
+      <div class="olivium" id="oliviumCard" style="display:none;">
+        <h4>Olivium Outlet Mall</h4>
+        <p>Optional transfer during Friday's free time (14:00–19:00). Let us know if you'd like a ride — you can change your answer anytime.</p>
+        <div class="ovbtns">
+          <button class="ovbtn" id="ovYes">Transfer to Olivium</button>
+          <button class="ovbtn" id="ovNo">Not Coming to Olivium</button>
+        </div>
+        <p class="ovstatus" id="ovStatus"></p>
+        <div class="ovshare" id="ovShare">
+          <a id="ovShareLink" href="#" target="_blank">Send my response to the organizer ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCIENTIFIC AGENDA -->
+    <section class="view" id="view-science">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">CONGRESS</p><h1>Scientific Agenda</h1></div>
+      </div>
+      <div class="daytabs" id="scidaytabs"></div>
+      <p class="daylabel" id="scidaylabel"></p>
+      <div id="sciSessions"></div>
+    </section>
+
+    <!-- TRAVEL -->
+    <section class="view" id="view-travel">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">TRAVEL</p><h1>Flights &amp; Venue</h1></div>
+      </div>
+
+      <div class="section-title">BENGHAZI GROUP <span class="rule"></span></div>
+      <div class="boarding">
+        <div class="bhead"><b>Berniq Airways</b><span>NB0301 · Wed 07 Oct</span></div>
+        <div class="brow">
+          <div class="city"><b>BEN</b><span>Benghazi · 09:00</span></div>
+          <div class="plane-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/></svg><small>3h</small></div>
+          <div class="city" style="text-align:right;"><b>IST</b><span>Istanbul · 13:00</span></div>
+        </div>
+        <div class="perf"><span>Hand bag 7kg · checked 23kg</span><span>Class Y</span></div>
+      </div>
+      <div class="boarding">
+        <div class="bhead"><b>Berniq Airways</b><span>NB0302 · Sat 10 Oct</span></div>
+        <div class="brow">
+          <div class="city"><b>IST</b><span>Istanbul · 14:00</span></div>
+          <div class="plane-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/></svg><small>3h</small></div>
+          <div class="city" style="text-align:right;"><b>BEN</b><span>Benghazi · 16:00</span></div>
+        </div>
+        <div class="perf"><span>Hand bag 7kg · checked 23kg</span><span>Class Y</span></div>
+      </div>
+
+      <div class="section-title">TRIPOLI GROUP <span class="rule"></span></div>
+      <div class="boarding">
+        <div class="bhead"><b>Libyan Wings</b><span>YL0102 · Wed 07 Oct</span></div>
+        <div class="brow">
+          <div class="city"><b>MJI</b><span>Tripoli Mitiga · 08:30</span></div>
+          <div class="plane-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/></svg><small>4.5h</small></div>
+          <div class="city" style="text-align:right;"><b>IST</b><span>Istanbul · 13:00</span></div>
+        </div>
+        <div class="perf"><span>Hand bag 7kg · checked 30kg</span><span>Class Y</span></div>
+      </div>
+      <div class="boarding">
+        <div class="bhead"><b>Libyan Wings</b><span>YL0103 · Sat 10 Oct</span></div>
+        <div class="brow">
+          <div class="city"><b>IST</b><span>Istanbul · 14:00</span></div>
+          <div class="plane-ico"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/></svg><small>4.5h</small></div>
+          <div class="city" style="text-align:right;"><b>MJI</b><span>Tripoli Mitiga · 16:30</span></div>
+        </div>
+        <div class="perf"><span>Hand bag 7kg · checked 30kg</span><span>Class Y</span></div>
+      </div>
+
+      <div class="section-title">LIVE LOCATION <span class="rule"></span></div>
+      <div class="maprow">
+        <iframe loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=28.9761%2C41.0337%2C28.9961%2C41.0437&layer=mapnik&marker=41.0387%2C28.9861"></iframe>
+      </div>
+      <div class="locbar">
+        <span id="locText">Tap to check your distance to the hotel</span>
+        <button onclick="locateMe()">LOCATE ME</button>
+      </div>
+
+      <div class="section-title">KEY PLACES <span class="rule"></span></div>
+      <div class="card" style="padding:6px 16px;">
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12M9 21v-6h6v6"/></svg></div>
+          <div class="pname"><b>Point Hotel 5★ Taksim</b><span>Event venue &amp; hotel</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=41.0387,28.9861" target="_blank">MAP</a>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 00-3 0V9l-8 5v2l8-2.5V19l-2.5 1.5V22l4-1 4 1v-1.5L13 19v-5.5z"/></svg></div>
+          <div class="pname"><b>Istanbul Airport</b><span>Confirm terminal on your ticket</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=41.2753,28.7519" target="_blank">MAP</a>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+          <div class="pname"><b>Meat Moot Ortaköy</b><span>Welcome dinner · Day 1</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Meat+Moot+Ortakoy+Istanbul" target="_blank">MAP</a>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><path d="M3 15c3-8 15-8 18 0"/><circle cx="12" cy="15" r="5.5"/></svg></div>
+          <div class="pname"><b>Sapanca Lake</b><span>Excursion · Day 2</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=40.6953,30.2593" target="_blank">MAP</a>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></div>
+          <div class="pname"><b>Kuzu Beyi Restaurant</b><span>Gala dinner · Day 3</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Kuzu+Beyi+Restaurant+Istanbul" target="_blank">MAP</a>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></div>
+          <div class="pname"><b>Olivium Outlet Mall</b><span>Optional · Day 3 afternoon</span></div>
+          <a href="https://www.google.com/maps/search/?api=1&query=Olivium+Outlet+Center+Istanbul" target="_blank">MAP</a>
+        </div>
+      </div>
+
+      <div class="section-title">TRANSPORT MAP <span class="rule"></span></div>
+      <div class="transitmap-wrap">
+        <svg viewBox="0 0 380 460" class="transitmap" role="img" aria-label="Schematic map of Istanbul metro, tram, funicular and ferry lines near Taksim">
+          <!-- Bosphorus water, straight diagonal band separating Europe (left) from Asia (right) -->
+          <path d="M290 28 L268 460 L380 460 L380 28 Z" fill="#DCEBF2"/>
+          <text x="316" y="55" class="tm-side">ASIA</text>
+          <text x="26" y="55" class="tm-side">EUROPE</text>
+
+          <!-- Marmaray (undersea rail), Sirkeci/Eminönü area to Üsküdar -->
+          <path d="M175 300 C 230 310, 280 315, 330 330" stroke="#B23A6B" stroke-width="3" stroke-dasharray="2 6" stroke-linecap="round" fill="none"/>
+          <!-- Ferries: Kabataş/Beşiktaş to Üsküdar &amp; Kadıköy -->
+          <path d="M95 300 C 190 330, 260 350, 330 330" stroke="#4C86B8" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round" fill="none"/>
+          <path d="M65 335 C 170 370, 260 395, 330 400" stroke="#4C86B8" stroke-width="2.2" stroke-dasharray="1 6" stroke-linecap="round" fill="none"/>
+
+          <!-- M2 metro line -->
+          <path d="M95 40 L95 90 L95 160 L95 230" stroke="#6CBE45" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <!-- F1 funicular -->
+          <path d="M95 160 L95 300" stroke="#8B5E3C" stroke-width="5" stroke-linecap="round" fill="none" stroke-dasharray="0.1 11" />
+          <!-- T1 tram (stays on the European side, west of the water) -->
+          <path d="M95 300 L135 300 L175 300 L215 300 L255 300" stroke="#0057A3" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+          <!-- M2 stations -->
+          <circle cx="95" cy="40" r="5" class="tm-node"/>
+          <text x="106" y="44" class="tm-label">Şişli–Mecidiyeköy</text>
+          <circle cx="95" cy="90" r="5" class="tm-node"/>
+          <text x="106" y="94" class="tm-label">Osmanbey</text>
+          <circle cx="95" cy="230" r="5" class="tm-node"/>
+          <text x="106" y="234" class="tm-label">Şişhane</text>
+
+          <!-- Taksim: highlighted hotel station -->
+          <circle cx="95" cy="160" r="10" class="tm-hotel-ring"/>
+          <circle cx="95" cy="160" r="6" class="tm-hotel-dot"/>
+          <text x="112" y="156" class="tm-label tm-strong">Taksim</text>
+          <text x="112" y="171" class="tm-hotel-tag">★ Point Hotel</text>
+
+          <!-- Kabataş -->
+          <circle cx="95" cy="300" r="6" class="tm-node tm-interchange"/>
+          <text x="55" y="320" class="tm-label">Kabataş</text>
+
+          <!-- T1 stations, European side only -->
+          <circle cx="135" cy="300" r="4.5" class="tm-node"/>
+          <text x="103" y="286" class="tm-label tm-small">Karaköy</text>
+          <circle cx="175" cy="300" r="4.5" class="tm-node"/>
+          <text x="155" y="320" class="tm-label tm-small">Eminönü</text>
+          <circle cx="215" cy="300" r="4.5" class="tm-node"/>
+          <text x="183" y="286" class="tm-label tm-small">Sultanahmet</text>
+          <circle cx="255" cy="300" r="4.5" class="tm-node"/>
+          <text x="233" y="320" class="tm-label tm-small">Beyazıt</text>
+
+          <!-- Asian side -->
+          <circle cx="330" cy="330" r="5" class="tm-node"/>
+          <text x="292" y="322" class="tm-label">Üsküdar</text>
+          <circle cx="330" cy="400" r="5" class="tm-node"/>
+          <text x="292" y="392" class="tm-label">Kadıköy</text>
+
+          <!-- Airport note -->
+          <rect x="18" y="410" width="210" height="34" rx="8" class="tm-airportbox"/>
+          <text x="28" y="425" class="tm-label tm-small tm-strong">✈ To İstanbul Airport</text>
+          <text x="28" y="438" class="tm-label tm-small">HAVAIST shuttle boards at Taksim Sq.</text>
+        </svg>
+
+        <div class="tm-legend">
+          <span><i style="background:#6CBE45;"></i>M2 Metro</span>
+          <span><i style="background:#8B5E3C;"></i>F1 Funicular</span>
+          <span><i style="background:#0057A3;"></i>T1 Tram</span>
+          <span><i style="background:#B23A6B;"></i>Marmaray</span>
+          <span><i style="background:#4C86B8;"></i>Ferry</span>
+        </div>
+        <p class="note" style="margin:10px 2px 0;">Schematic diagram, not to scale — shows the lines and stops relevant to getting around from Point Hotel Taksim.</p>
+      </div>
+
+      <div class="section-title">STATION ORDER <span class="rule"></span></div>
+
+      <div class="transitline">
+        <div class="tl-head"><span class="tl-dot" style="background:#6CBE45;"></span><b>M2 Metro</b><span class="tl-sub">Yenikapı ↔ Hacıosman</span></div>
+        <div class="tl-stations">
+          <div class="tl-stop dim"><span class="tl-node"></span>Şişhane</div>
+          <div class="tl-stop here"><span class="tl-node"></span>Taksim <em>— Point Hotel</em></div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Osmanbey</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Şişli–Mecidiyeköy</div>
+        </div>
+      </div>
+
+      <div class="transitline">
+        <div class="tl-head"><span class="tl-dot" style="background:#8B5E3C;"></span><b>F1 Funicular</b><span class="tl-sub">Taksim ↔ Kabataş, 2 min ride</span></div>
+        <div class="tl-stations">
+          <div class="tl-stop here"><span class="tl-node"></span>Taksim</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Kabataş <em>— connects to T1 tram &amp; ferries</em></div>
+        </div>
+      </div>
+
+      <div class="transitline">
+        <div class="tl-head"><span class="tl-dot" style="background:#0057A3;"></span><b>T1 Tram</b><span class="tl-sub">Kabataş ↔ Bağcılar</span></div>
+        <div class="tl-stations">
+          <div class="tl-stop dim"><span class="tl-node"></span>Kabataş</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Karaköy</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Eminönü <em>— ferry piers</em></div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Sultanahmet <em>— Blue Mosque, Hagia Sophia</em></div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Beyazıt <em>— Grand Bazaar</em></div>
+        </div>
+      </div>
+
+      <div class="transitline">
+        <div class="tl-head"><span class="tl-dot" style="background:#1F6F78;"></span><b>Şehir Hatları Ferries</b><span class="tl-sub">Bosphorus city lines</span></div>
+        <div class="tl-stations">
+          <div class="tl-stop dim"><span class="tl-node"></span>Kabataş</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Beşiktaş</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Eminönü</div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Üsküdar <em>— Asian side</em></div>
+          <div class="tl-stop dim"><span class="tl-node"></span>Kadıköy <em>— Asian side</em></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:4px;">
+        <p class="note" style="margin:0 0 8px;"><b style="color:var(--ink);">From Point Hotel:</b> walk to Taksim station and take the M2 metro directly, or ride the F1 funicular one stop down to Kabataş to reach the T1 tram and the ferries.</p>
+        <p class="note" style="margin:0;">One Istanbulkart, tapped in and out, covers every metro, tram, bus, funicular and ferry in the city.</p>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section class="view" id="view-tools">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">TOOLS</p><h1>Currency &amp; Info</h1></div>
+      </div>
+
+      <div class="section-title">CURRENCY CONVERTER <span class="rule"></span></div>
+      <div class="card">
+        <div class="conv-row">
+          <div class="flagdot">LYD</div>
+          <input type="number" id="fLYD" inputmode="decimal" value="100">
+          <div class="unit">د.ل</div>
+        </div>
+        <div class="conv-row">
+          <div class="flagdot">TRY</div>
+          <input type="number" id="fTRY" inputmode="decimal">
+          <div class="unit">₺</div>
+        </div>
+        <div class="conv-row">
+          <div class="flagdot">USD</div>
+          <input type="number" id="fUSD" inputmode="decimal">
+          <div class="unit">$</div>
+        </div>
+        <div class="rate-toggle" onclick="toggleRates()">UPDATE RATES ▾</div>
+        <div class="rate-panel" id="ratePanel">
+          <div class="rr"><label>1 USD =  ___ LYD</label><input type="number" id="rLYD" value="6.35" step="0.01"></div>
+          <div class="rr"><label>1 USD =  ___ TRY</label><input type="number" id="rTRY" value="48.40" step="0.01"></div>
+          <p class="note">Indicative mid-market rates, Sep 2026. Bank &amp; exchange-office rates will differ — update the fields above with today's rate before you travel.</p>
+        </div>
+      </div>
+
+      <div class="section-title">TURKEY AT A GLANCE <span class="rule"></span></div>
+      <div class="infolist">
+        <div class="infocell"><span>Currency</span><b>Turkish Lira (₺)</b></div>
+        <div class="infocell"><span>Language</span><b>Turkish</b></div>
+        <div class="infocell"><span>Time zone</span><b>GMT+3, no DST</b></div>
+        <div class="infocell"><span>Electricity</span><b>230V · Type C/F</b></div>
+        <div class="infocell"><span>Dial code</span><b>+90</b></div>
+        <div class="infocell"><span>Emergency</span><b>112</b></div>
+      </div>
+      <p class="note">Most hotel &amp; restaurant staff in Istanbul speak English. A 5–10% tip is customary at restaurants. Check visa requirements for Libyan passport holders with the organizers before you travel.</p>
+    </section>
+
+    <!-- MEET EVA TEAM -->
+    <section class="view" id="view-team">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">EVA PHARMA</p><h1>Meet the Team</h1></div>
+      </div>
+      <p class="note" style="margin:0 0 18px;">EVA Pharma staff joining you at Ortho SAM Istanbul 2026.</p>
+
+      <div class="team-card">
+        <div class="team-photo"><img src="images/team_wael.jpg" alt="Dr. Wael Anwar"></div>
+        <div class="team-info">
+          <b>Dr. Wael Anwar</b>
+          <span>Near East Commercial Excellence and Libya Country Head, Emerging Markets</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo"><img src="images/team_ahmed.jpg" alt="Dr. Ahmed El Gahawy"></div>
+        <div class="team-info">
+          <b>Dr. Ahmed El Gahawy</b>
+          <span>Group Product Manager, Emerging Markets</span>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo"><img src="images/team_peter.jpg" alt="Dr. Peter Karmy"></div>
+        <div class="team-info">
+          <b>Dr. Peter Karmy</b>
+          <span>Medical Affairs Lead, Emerging Markets</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ISTANBUL / TURKEY GUIDE -->
+    <section class="view" id="view-guide">
+      <div class="topbar" style="padding:2px 0 0;">
+        <div><p class="eyebrow">DESTINATION</p><h1>Istanbul Guide</h1></div>
+      </div>
+
+      <div class="hero" style="padding:22px 20px;">
+        <svg class="motif" viewBox="0 0 300 140" preserveAspectRatio="xMidYMid slice">
+          <defs><pattern id="p3" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M15 0 L30 15 L15 30 L0 15 Z" fill="none" stroke="#FFC528" stroke-width=".6"/>
+          </pattern></defs>
+          <rect width="300" height="140" fill="url(#p3)"/>
+        </svg>
+        <p class="eyebrow">TÜRKİYE</p>
+        <h2 style="font-size:22px;">Istanbul, where two continents meet</h2>
+        <p class="meta">The only city in the world spanning Europe and Asia, split by the Bosphorus Strait. Point Hotel Taksim sits on the European side, in the heart of the city's modern center.</p>
+      </div>
+
+      <div class="section-title">COUNTRY BASICS <span class="rule"></span></div>
+      <div class="infolist">
+        <div class="infocell"><span>Capital</span><b>Ankara</b></div>
+        <div class="infocell"><span>Largest city</span><b>Istanbul</b></div>
+        <div class="infocell"><span>Currency</span><b>Turkish Lira (₺)</b></div>
+        <div class="infocell"><span>Language</span><b>Turkish</b></div>
+        <div class="infocell"><span>Time zone</span><b>GMT+3, no DST</b></div>
+        <div class="infocell"><span>Dial code</span><b>+90</b></div>
+      </div>
+
+      <div class="section-title">WEATHER IN OCTOBER <span class="rule"></span></div>
+      <div class="card">
+        <div class="conv-row" style="margin-bottom:4px;">
+          <div class="flagdot" style="background:#FFC528; color:#0B0C0E;">☀</div>
+          <div style="flex:1;">
+            <b style="font-family:'Fraunces'; font-size:16px;">Mild &amp; occasionally rainy</b>
+          </div>
+        </div>
+        <p class="note" style="margin-top:8px;">Typical daytime highs around 19°C (66°F), dropping to about 12°C (54°F) at night. Expect roughly 10 rainy days across the month — pack a light jacket and a compact umbrella, layers work best.</p>
+      </div>
+
+      <div class="section-title">GETTING AROUND <span class="rule"></span></div>
+      <div class="card" style="padding:6px 16px;">
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="13" rx="2"/><path d="M4 14h16M8 18v2M16 18v2"/></svg></div>
+          <div class="pname"><b>Istanbulkart</b><span>Rechargeable card for trams, metro &amp; ferries — sold at kiosks near stations</span></div>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="9" rx="2"/><circle cx="7.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/><path d="M5 9l1.5-4h11L19 9"/></svg></div>
+          <div class="pname"><b>Taxis &amp; BiTaksi</b><span>Metered yellow taxis are everywhere; the BiTaksi app avoids language barriers</span></div>
+        </div>
+        <div class="place">
+          <div class="picon"><svg viewBox="0 0 24 24"><path d="M4 18c2-8 4-13 8-13s6 5 8 13" /><path d="M2 18h20"/></svg></div>
+          <div class="pname"><b>Taksim Square</b><span>Central hub for trams, buses and the Istiklal Avenue walking street</span></div>
+        </div>
+      </div>
+
+      <div class="section-title">CUSTOMS &amp; ETIQUETTE <span class="rule"></span></div>
+      <div class="card">
+        <p class="note" style="margin:0 0 10px;"><b style="color:var(--ink);">Greetings:</b> a handshake is standard; close friends may greet with a cheek kiss.</p>
+        <p class="note" style="margin:0 0 10px;"><b style="color:var(--ink);">Dress:</b> smart-casual is fine in the city; modest dress is expected when visiting mosques (shoulders and knees covered, headscarf for women).</p>
+        <p class="note" style="margin:0 0 10px;"><b style="color:var(--ink);">Tipping:</b> 5–10% at restaurants is customary; round up for taxis.</p>
+        <p class="note" style="margin:0;"><b style="color:var(--ink);">Friday prayer:</b> some shops and restaurants near mosques pause briefly around midday on Fridays.</p>
+      </div>
+
+      <div class="section-title">USEFUL PHRASES <span class="rule"></span></div>
+      <div class="infolist">
+        <div class="infocell"><span>Hello</span><b>Merhaba</b></div>
+        <div class="infocell"><span>Thank you</span><b>Teşekkürler</b></div>
+        <div class="infocell"><span>Please</span><b>Lütfen</b></div>
+        <div class="infocell"><span>Yes / No</span><b>Evet / Hayır</b></div>
+        <div class="infocell"><span>How much?</span><b>Ne kadar?</b></div>
+        <div class="infocell"><span>Excuse me</span><b>Affedersiniz</b></div>
+      </div>
+
+      <div class="section-title">LIVE TRANSLATE <span class="rule"></span></div>
+      <div class="card">
+        <div class="translate-dir">
+          <select id="langFrom" class="langselect">
+            <option value="ar" selected>Arabic</option>
+            <option value="en">English</option>
+            <option value="tr">Turkish</option>
+          </select>
+          <button class="swap-btn" id="swapLang" aria-label="Swap languages">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>
+          </button>
+          <select id="langTo" class="langselect">
+            <option value="ar">Arabic</option>
+            <option value="en">English</option>
+            <option value="tr" selected>Turkish</option>
+          </select>
+        </div>
+        <textarea id="translateInput" rows="3" placeholder="Type here…"></textarea>
+        <button class="pill-btn gold" style="width:100%; justify-content:center; margin-top:10px;" id="translateBtn">Translate</button>
+        <div class="translate-output" id="translateOutput" style="display:none;"></div>
+        <p class="note" id="translateNote" style="margin-top:10px;">Powered by a free translation service — best for short phrases, not full paragraphs.</p>
+      </div>
+
+      <div class="section-title">SAFETY &amp; EMERGENCY <span class="rule"></span></div>
+      <div class="infolist">
+        <div class="infocell"><span>Emergency (all services)</span><b>112</b></div>
+        <div class="infocell"><span>Electricity</span><b>230V · Type C/F</b></div>
+      </div>
+      <p class="note">Istanbul is generally safe for travelers; usual city precautions apply (watch belongings in crowded areas like Istiklal Avenue and the Grand Bazaar). Tap water is chlorinated and safe by municipal standards, but most visitors and locals drink bottled water. Check visa requirements for Libyan passport holders with the organizers before you travel.</p>
+    </section>
+
+  </div>
+
+  <!-- TAB BAR -->
+  <nav class="tabbar">
+    <button class="tab active" data-tab="home" onclick="goTab('home')">
+      <svg viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg>Home
+    </button>
+    <button class="tab" data-tab="program" onclick="goTab('program')">
+      <svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>Program
+    </button>
+    <button class="tab" data-tab="science" onclick="goTab('science')">
+      <svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v5l-5 9a2 2 0 002 3h10a2 2 0 002-3l-5-9V3"/></svg>Science
+    </button>
+    <button class="tab" data-tab="travel" onclick="goTab('travel')">
+      <svg viewBox="0 0 24 24"><path d="M10.5 21l1.5-6 6-2-1-2-6 1.5L9 3 7 4l1.5 8.5-6 1L2 15l7 1.5z"/></svg>Travel
+    </button>
+    <button class="tab" data-tab="tools" onclick="goTab('tools')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 13a1.6 1.6 0 000-2l1.1-1.4-1.6-2.7-1.7.5a7 7 0 00-1.7-1L15 4h-3l-.5 1.8a7 7 0 00-1.7 1l-1.7-.5-1.6 2.7L7.6 11a1.6 1.6 0 000 2l-1.1 1.4 1.6 2.7 1.7-.5a7 7 0 001.7 1L12 20h3l.5-1.8a7 7 0 001.7-1l1.7.5 1.6-2.7z"/></svg>Tools
+    </button>
+  </nav>
+
+  <!-- PROFILE SHEET -->
+  <div class="sheet-bg" id="sheetBg" onclick="if(event.target===this)closeSheet()">
+    <div class="sheet">
+      <h3>My profile</h3>
+      <div class="row">
+        <div class="photo-pick" style="width:64px;height:64px; border-color:#D8D0C0; margin:0;" id="sheetPhotoPick">
+          <img id="sheetPhotoImg" style="display:none;">
+          <svg id="sheetPhotoIcon" width="22" height="22" viewBox="0 0 24 24" stroke="#6B6B68" fill="none" stroke-width="1.6"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 011 1v11a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z"/><circle cx="12" cy="13" r="3.5"/></svg>
+        </div>
+        <div>
+          <b id="sheetName" style="display:block; font-size:15px;"></b>
+          <span id="sheetCity" style="font-size:12.5px; color:var(--muted);"></span>
+        </div>
+      </div>
+      <input type="file" id="sheetPhotoInput" accept="image/*" style="display:none;">
+      <p class="note" style="margin-bottom:14px;">Tap the circle above to change your photo.</p>
+      <button class="pill-btn ghost" style="width:100%; justify-content:center; margin-bottom:10px;" id="sheetChangeName">Change name</button>
+      <button class="pill-btn gold" style="width:100%; justify-content:center;" onclick="closeSheet()">Done</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
