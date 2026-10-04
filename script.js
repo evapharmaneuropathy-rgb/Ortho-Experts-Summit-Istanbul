@@ -67,11 +67,11 @@ const PROGRAM = [
     {t:'09:00–12:00', h:'Scientific Session', d:'Scientific Session — Day 2 (see Scientific Agenda tab)'},
     {t:'12:00–13:00', h:'Coffee Break', d:''},
     {t:'13:00–14:00', h:'Jumu’ah Prayer', d:'Friday prayer break'},
-    {t:'14:00–19:00', h:'Leisure & City Exploration', d:'Free time for shopping and exploring Istanbul — optional transfer to Olivium Outlet Mall (see below)'},
+    {t:'14:00–19:00', h:'Leisure & City Exploration', d:'Free time for shopping and exploring Istanbul — optional visit to Olivium Outlet Mall'},
     {t:'19:30–20:00', h:'Transfer to Dinner', d:'Evening transfer to restaurant'},
     {t:'20:00–22:30', h:'Gala Dinner', d:'Farewell dinner at Kuzu Beyi Restaurant'},
     {t:'22:30–23:00', h:'Return Transfer', d:'Private transfer back to Point Hotel 5★'},
-  ], olivium:true},
+  ]},
   {label:'Day 4', date:'Sat 10 Oct', items:[
     {t:'07:00–10:00', h:'Breakfast', d:'Point Hotel Restaurant'},
     {t:'10:00–10:30', h:'Hotel Check-out', d:'Luggage collection and check-out'},
@@ -99,11 +99,6 @@ const SCIENTIFIC = [
 const HOTEL = {lat:41.0387, lon:28.9861};
 const EVENT_START = new Date('2026-10-07T09:00:00');
 
-/* Google Sheet logging for Olivium responses — paste the Apps Script Web App
-   URL here (see setup steps provided separately). Every tap of Yes/No also
-   posts the attendee's name, city and choice as a new row in that Sheet. */
-const OLIVIUM_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcr3H_WgtzwWS2IqTXOBnawPbWjRZnKW2HdGWqgUwEpjEwesOSjdv0pMZOjOqWbCQrtQ/exec';
-
 /* ================= storage helpers ================= */
 function loadProfile(){
   try{
@@ -113,15 +108,6 @@ function loadProfile(){
 }
 function storeProfile(profile){
   try{ localStorage.setItem('orthosam_profile', JSON.stringify(profile)); }catch(e){/* best effort */}
-}
-function loadOlivium(){
-  try{
-    const raw = localStorage.getItem('orthosam_olivium');
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
-}
-function storeOlivium(choice){
-  try{ localStorage.setItem('orthosam_olivium', JSON.stringify({choice, at: new Date().toISOString()})); }catch(e){/* best effort */}
 }
 
 let profile = {name:'', city:'', photo:''};
@@ -292,55 +278,7 @@ function renderTimeline(){
       <h4>${it.h}</h4>
       ${it.d ? `<p>${it.d}</p>` : ''}
     </div>`).join('');
-
-  const ov = document.getElementById('oliviumCard');
-  if(day.olivium){
-    ov.style.display = 'block';
-    renderOliviumStatus();
-  } else {
-    ov.style.display = 'none';
-  }
 }
-
-/* ---------------- Olivium (no backend — stored locally, share fallback) ---------------- */
-function renderOliviumStatus(){
-  const saved = loadOlivium();
-  const btnYes = document.getElementById('ovYes');
-  const btnNo = document.getElementById('ovNo');
-  const status = document.getElementById('ovStatus');
-  btnYes.classList.remove('selected');
-  btnNo.classList.remove('selected');
-  status.classList.remove('show');
-  if(saved){
-    if(saved.choice==='yes') btnYes.classList.add('selected');
-    if(saved.choice==='no') btnNo.classList.add('selected');
-    status.textContent = (saved.choice==='yes' ? 'You’re booked for the Olivium transfer.' : 'You’ve opted out of the Olivium transfer.') + ' Tap again anytime to change.';
-    status.classList.add('show');
-  }
-}
-function logOliviumToSheet(choice){
-  if(!OLIVIUM_SHEET_URL) return;
-  try{
-    fetch(OLIVIUM_SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'text/plain;charset=utf-8'},
-      body: JSON.stringify({
-        name: profile.name || 'Unknown',
-        city: profile.city || '',
-        choice: choice === 'yes' ? 'Transfer to Olivium' : 'Not coming to Olivium',
-        submittedAt: new Date().toISOString()
-      })
-    }).catch(()=>{ /* best effort — attendee's own connection may be offline */ });
-  }catch(e){ /* best effort, never block the UI on this */ }
-}
-function setOlivium(choice){
-  storeOlivium(choice);
-  renderOliviumStatus();
-  logOliviumToSheet(choice);
-}
-document.getElementById('ovYes').addEventListener('click', () => setOlivium('yes'));
-document.getElementById('ovNo').addEventListener('click', () => setOlivium('no'));
 
 /* ---------------- scientific agenda rendering ---------------- */
 let activeSciDay = 0;
