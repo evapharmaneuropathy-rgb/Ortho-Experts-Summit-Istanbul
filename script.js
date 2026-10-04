@@ -34,6 +34,7 @@ const CUSTOMERS = [
   {city:'Tripoli', name:'Yasri M M Ali Eshtewi'},
   {city:'Tripoli', name:'Abdulmunem Mare Mohammed Abouhjab'},
   {city:'Tripoli', name:'Salah Emhemmed Abusahmeen'},
+  {city:'Egypt', name:'Mohamed Fawzy Khatab'},
   {city:'EVA Team', name:'Wael Anwar'},
   {city:'EVA Team', name:'Ahmed El Gahawy'},
   {city:'EVA Team', name:'Peter Karmy'},
@@ -102,6 +103,12 @@ const EVENT_START = new Date('2026-10-07T09:00:00');
    "Send my response to the organizer" button opens a chat pre-addressed to them.
    Leave blank to just open WhatsApp's normal share sheet instead. */
 const ORGANIZER_WHATSAPP = '';
+
+/* Google Sheet logging for Olivium responses — paste the Apps Script Web App
+   URL here (see setup steps provided separately). Every tap of Yes/No also
+   posts the attendee's name, city and choice as a new row in that Sheet.
+   Leave blank to skip Sheet logging (WhatsApp share still works either way). */
+const OLIVIUM_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcr3H_WgtzwWS2IqTXOBnawPbWjRZnKW2HdGWqgUwEpjEwesOSjdv0pMZOjOqWbCQrtQ/exec';
 
 /* ================= storage helpers ================= */
 function loadProfile(){
@@ -324,9 +331,26 @@ function renderOliviumStatus(){
     document.getElementById('ovShareLink').href = `https://wa.me/${waTarget}?text=${msg}`;
   }
 }
+function logOliviumToSheet(choice){
+  if(!OLIVIUM_SHEET_URL) return;
+  try{
+    fetch(OLIVIUM_SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain;charset=utf-8'},
+      body: JSON.stringify({
+        name: profile.name || 'Unknown',
+        city: profile.city || '',
+        choice: choice === 'yes' ? 'Transfer to Olivium' : 'Not coming to Olivium',
+        submittedAt: new Date().toISOString()
+      })
+    }).catch(()=>{ /* best effort — attendee's own connection may be offline */ });
+  }catch(e){ /* best effort, never block the UI on this */ }
+}
 function setOlivium(choice){
   storeOlivium(choice);
   renderOliviumStatus();
+  logOliviumToSheet(choice);
 }
 document.getElementById('ovYes').addEventListener('click', () => setOlivium('yes'));
 document.getElementById('ovNo').addEventListener('click', () => setOlivium('no'));
@@ -443,8 +467,62 @@ function fetchWeather(){
     });
 }
 
+/* ---------------- prayer times (Istanbul, Diyanet method) ---------------- */
+const PRAYER_IDS = {Fajr:'prFajr', Dhuhr:'prDhuhr', Asr:'prAsr', Maghrib:'prMaghrib', Isha:'prIsha'};
+function renderPrayerTimes(timings){
+  Object.keys(PRAYER_IDS).forEach(key => {
+    const el = document.getElementById(PRAYER_IDS[key]);
+    if(!el || !timings[key]) return;
+    el.textContent = timings[key].split(' ')[0]; // strip any "(TZ)" suffix
+  });
+}
+function fetchPrayerTimes(){
+  const todayStr = new Date().toLocaleDateString('en-CA', {timeZone:'Europe/Istanbul'}); // YYYY-MM-DD
+  const cacheKey = 'orthosam_prayertimes';
+  let cached = null;
+  try{ cached = JSON.parse(localStorage.getItem(cacheKey)); }catch(e){}
+  if(cached && cached.date === todayStr && cached.timings){
+    renderPrayerTimes(cached.timings);
+    return;
+  }
+  const url = `https://api.aladhan.com/v1/timings?latitude=41.0082&longitude=28.9784&method=13&timezonestring=Europe%2FIstanbul`;
+  fetch(url)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      const timings = data && data.data && data.data.timings;
+      if(!timings) return Promise.reject();
+      try{ localStorage.setItem(cacheKey, JSON.stringify({date: todayStr, timings, at: Date.now()})); }catch(e){}
+      renderPrayerTimes(timings);
+    })
+    .catch(() => {
+      if(cached && cached.timings) renderPrayerTimes(cached.timings); // show yesterday's as a rough fallback
+    });
+}
+
 /* ---------------- live translate ---------------- */
 const LANG_PLACEHOLDER = {ar:'Type here…', en:'Type here…', tr:'Buraya yazın…'};
+
+function translateViaGoogle(text, from, to){
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${from}&tl=${to}&dt=t&q=${encodeURIComponent(text)}`;
+  return fetch(url)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      if(!Array.isArray(data) || !Array.isArray(data[0])) return Promise.reject();
+      const translated = data[0].map(seg => seg && seg[0] ? seg[0] : '').join('');
+      if(!translated) return Promise.reject();
+      return translated;
+    });
+}
+function translateViaMyMemory(text, from, to){
+  const langpair = `${from}|${to}`;
+  return fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langpair}`)
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(data => {
+      const translated = data && data.responseData && data.responseData.translatedText;
+      if(!translated || /MYMEMORY WARNING/i.test(translated)) return Promise.reject();
+      return translated;
+    });
+}
 function initTranslate(){
   const fromSel = document.getElementById('langFrom');
   const toSel = document.getElementById('langTo');
@@ -478,12 +556,9 @@ function initTranslate(){
     }
     btn.disabled = true;
     btn.textContent = 'Translating…';
-    const langpair = `${fromSel.value}|${toSel.value}`;
-    fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langpair}`)
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(data => {
-        const translated = data && data.responseData && data.responseData.translatedText;
-        if(!translated) return Promise.reject();
+    translateViaGoogle(text, fromSel.value, toSel.value)
+      .catch(() => translateViaMyMemory(text, fromSel.value, toSel.value))
+      .then(translated => {
         output.textContent = translated;
         output.style.display = 'block';
         note.textContent = 'Powered by a free translation service — best for short phrases, not full paragraphs.';
@@ -574,6 +649,8 @@ function toggleRates(){ document.getElementById('ratePanel').classList.toggle('o
   setInterval(updateClocks, 1000);
   fetchWeather();
   setInterval(fetchWeather, 900000);
+  fetchPrayerTimes();
+  setInterval(fetchPrayerTimes, 1800000);
   initTranslate();
   convert();
 

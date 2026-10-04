@@ -79,6 +79,24 @@ h1,h2,h3,.serif{font-family:'Fraunces',serif;}
 .pill-btn.gold{background:var(--yellow); color:var(--ink);}
 .pill-btn:active{transform:scale(.98);}
 .pill-btn[disabled]{opacity:.45; pointer-events:none;}
+a.pill-btn{text-decoration:none;}
+
+.agenda-pdf-card{display:flex; align-items:center; gap:12px; margin-bottom:18px; flex-wrap:wrap;}
+.agenda-pdf-icon{
+  flex:none; width:42px; height:42px; border-radius:12px; background:var(--paper);
+  display:flex; align-items:center; justify-content:center; color:var(--yellow-deep);
+}
+.agenda-pdf-icon svg{width:22px; height:22px;}
+.agenda-pdf-info{flex:1; min-width:140px; display:flex; flex-direction:column; gap:2px;}
+.agenda-pdf-info b{font-size:14px; color:var(--ink);}
+.agenda-pdf-info span{font-size:11.5px; color:var(--muted); line-height:1.4;}
+.agenda-pdf-actions{display:flex; gap:8px; flex:none;}
+.agenda-pdf-actions .pill-btn{padding:9px 16px; font-size:12.5px;}
+@media (max-width:360px){
+  .agenda-pdf-card{flex-direction:column; align-items:flex-start;}
+  .agenda-pdf-actions{width:100%;}
+  .agenda-pdf-actions .pill-btn{flex:1;}
+}
 
 input[type=text], input[type=number]{
   width:100%; border:1.5px solid var(--line); border-radius:var(--radius-sm);
@@ -152,6 +170,14 @@ label.field-label{font-size:12.5px; font-weight:800; color:var(--ink); margin:0 
 .clockcell .ccity{display:block; font-size:10.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:4px;}
 .clockcell b{display:block; font-family:'Fraunces'; font-size:19px; color:var(--ink);}
 .clockcell .cdate{display:block; font-size:10px; color:var(--muted); margin-top:2px;}
+
+.prayerrow{display:grid; grid-template-columns:repeat(5,1fr); gap:6px;}
+.prayercell{
+  background:#fff; border:1.5px solid var(--line); border-radius:var(--radius-md);
+  padding:10px 2px; text-align:center;
+}
+.prayercell .pname{display:block; font-size:9.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; margin-bottom:4px;}
+.prayercell b{display:block; font-family:'Fraunces'; font-size:14px; color:var(--ink);}
 
 .forecastrow{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
 .forecastcell{
@@ -303,9 +329,12 @@ label.field-label{font-size:12.5px; font-weight:800; color:var(--ink); margin:0 
 }
 .swap-btn svg{width:16px; height:16px;}
 #translateInput{
-  width:100%; border:1.5px solid var(--line); border-radius:var(--radius-sm); padding:12px 14px;
+  width:100%; box-sizing:border-box; border:1.5px solid var(--ink); border-radius:var(--radius-sm); padding:12px 14px;
   font-family:'Manrope'; font-size:14.5px; color:var(--ink); resize:vertical;
+  background:var(--paper);
 }
+#translateInput::placeholder{color:var(--muted); opacity:1;}
+#translateInput:focus{outline:none; border-color:var(--yellow-deep); background:#fff; box-shadow:0 0 0 3px rgba(242,169,0,.18);}
 .translate-output{
   margin-top:12px; background:#FFFBEF; border:1.5px solid var(--yellow); border-radius:var(--radius-sm);
   padding:14px; font-size:15px; color:var(--ink); font-weight:600; line-height:1.5;
@@ -387,6 +416,12 @@ label.field-label{font-size:12.5px; font-weight:800; color:var(--ink); margin:0 
 .sponsor-footer .sponsor-logos img{height:30px;}
 .sponsor-footer .sponsor-logos img.xrlogo{height:22px;}
 .sponsor-footer p{margin:0; font-size:12px; color:var(--muted); line-height:1.5;}
+
+.product-pack-card{position:relative; margin-top:14px; background:rgba(255,255,255,.96); border-radius:16px; padding:14px; width:100%; max-width:280px; display:flex; align-items:center; gap:12px; text-align:left;}
+.product-pack-img{width:56px; height:auto; border-radius:6px; flex-shrink:0; box-shadow:0 2px 8px rgba(11,12,14,.18);}
+.product-pack-info{display:flex; flex-direction:column; gap:3px;}
+.product-pack-info b{font-size:13px; color:var(--ink);}
+.product-pack-info span{font-size:10.5px; color:var(--muted); line-height:1.4;}
 
 /* ---------- edit sheet ---------- */
 .sheet-bg{position:absolute; inset:0; background:rgba(11,12,14,.5); z-index:40; display:none;}
