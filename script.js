@@ -98,16 +98,10 @@ const SCIENTIFIC = [
 
 const HOTEL = {lat:41.0387, lon:28.9861};
 const EVENT_START = new Date('2026-10-07T09:00:00');
-/* Olivium responses have no backend to collect into — set this to the organizer's
-   WhatsApp number (international format, digits only, e.g. "218911234567") so the
-   "Send my response to the organizer" button opens a chat pre-addressed to them.
-   Leave blank to just open WhatsApp's normal share sheet instead. */
-const ORGANIZER_WHATSAPP = '';
 
 /* Google Sheet logging for Olivium responses — paste the Apps Script Web App
    URL here (see setup steps provided separately). Every tap of Yes/No also
-   posts the attendee's name, city and choice as a new row in that Sheet.
-   Leave blank to skip Sheet logging (WhatsApp share still works either way). */
+   posts the attendee's name, city and choice as a new row in that Sheet. */
 const OLIVIUM_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcr3H_WgtzwWS2IqTXOBnawPbWjRZnKW2HdGWqgUwEpjEwesOSjdv0pMZOjOqWbCQrtQ/exec';
 
 /* ================= storage helpers ================= */
@@ -314,21 +308,14 @@ function renderOliviumStatus(){
   const btnYes = document.getElementById('ovYes');
   const btnNo = document.getElementById('ovNo');
   const status = document.getElementById('ovStatus');
-  const share = document.getElementById('ovShare');
   btnYes.classList.remove('selected');
   btnNo.classList.remove('selected');
   status.classList.remove('show');
-  share.classList.remove('show');
   if(saved){
     if(saved.choice==='yes') btnYes.classList.add('selected');
     if(saved.choice==='no') btnNo.classList.add('selected');
     status.textContent = (saved.choice==='yes' ? 'You’re booked for the Olivium transfer.' : 'You’ve opted out of the Olivium transfer.') + ' Tap again anytime to change.';
     status.classList.add('show');
-    share.classList.add('show');
-    const name = profile.name || 'Attendee';
-    const msg = encodeURIComponent(`Ortho SAM Istanbul — Olivium Outlet Mall response\nName: ${name}\nChoice: ${saved.choice==='yes' ? 'Transfer to Olivium' : 'Not coming to Olivium'}`);
-    const waTarget = ORGANIZER_WHATSAPP ? ORGANIZER_WHATSAPP.replace(/\D/g,'') : '';
-    document.getElementById('ovShareLink').href = `https://wa.me/${waTarget}?text=${msg}`;
   }
 }
 function logOliviumToSheet(choice){
